@@ -46,7 +46,7 @@ class SensorManager {
                     newValue = (Math.random() * 100).toFixed(2);
             }
             sensor.updateValue = newValue;
-            this.render();tc
+            this.render();
         } else {
             console.error(`Sensor ID ${id} no encontrado`);
         }
