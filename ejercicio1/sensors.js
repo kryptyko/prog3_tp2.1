@@ -1,4 +1,23 @@
-class Sensor {}
+
+//implementacion nueva
+class Sensor {
+    //Para seguir en linea con la nomenclatura en ingles, se usaran los atributos en ingles
+    constructor(id, name, type, value, unit, updated_at) {
+        this.id = id; // Identificador del sensor
+        this.name = name; // Nombre del sensor
+        this.type = type; // Tipo del sensor
+        this.value = value; // Valor del sensor
+        this.unit = unit; // Unidad de medida del sensor
+        this.updated_at = updated_at; // Fecha de actualizacion del sensor
+    }
+
+    // Setter para actualizar el valor del sensor y la fecha de actualizacion
+    set updateValue(newValue) {
+        this.value = newValue; // Actualiza el valor del sensor
+        this.updated_at = new Date().toISOString(); // Actualiza la fecha de actualizacion al momento actual
+    }
+}
+//fin implementacion nueva
 
 class SensorManager {
     constructor() {
@@ -27,13 +46,31 @@ class SensorManager {
                     newValue = (Math.random() * 100).toFixed(2);
             }
             sensor.updateValue = newValue;
-            this.render();
+            this.render();tc
         } else {
             console.error(`Sensor ID ${id} no encontrado`);
         }
     }
 
-    async loadSensors(url) {}
+    async loadSensors(url) {
+        
+            const response = await fetch(url); // Realiza la petición fetch al archivo JSON
+            const data = await response.json(); // Convierte la respuesta a JSON
+            data.forEach((sensorData) => {
+                // Crea instancias de la clase Sensor con los datos del JSON
+                const sensor = new Sensor(
+                    sensorData.id,
+                    sensorData.name,
+                    sensorData.type,
+                    sensorData.value,
+                    sensorData.unit,
+                    sensorData.updated_at
+                );
+                this.addSensor(sensor); // Agrega el sensor a la colección
+            });
+            this.render(); // Muestra los sensores en la página
+        
+    }
 
     render() {
         const container = document.getElementById("sensor-container");
