@@ -1,6 +1,19 @@
-class Customer {}
+class Customer {
+    // contructor para el objeto Customer
+    constructor(id, name, email) {
+        this.id = id; 
+        this.name = name;
+        this.email = email;
+    }
+    //computada para obtener el nombre y el email del cliente
+    get info() {
+        return `${this.name} (${this.email})`; 
+    }
+}
 
-class Reservation {}
+class Reservation {
+    //to do
+}
 
 class Restaurant {
     constructor(name) {
