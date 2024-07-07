@@ -21,7 +21,16 @@ class Card {
       `;
         return cardElement;
     }
-
+    toggleFlip() {
+        if (this.isFlipped) {
+            this.unflip();
+        } else {
+            this.flip();
+        }
+    }
+    matches(othercard) {
+        return this.name === othercard.name;
+    }
     #flip() {
         const cardElement = this.element.querySelector(".card");
         cardElement.classList.add("flipped");
@@ -52,7 +61,34 @@ class Board {
 
         return columns;
     }
+    
+    shuffleCards(cards) {
+        // Crear una copia del arreglo original
+        let shuffledCards = [...cards];
+      
+        // Recorrer el arreglo de atrás hacia adelante
+        for (let i = shuffledCards.length - 1; i > 0; i--) {
+          // Generar un índice aleatorio entre 0 y i (inclusive)
+          const j = Math.floor(Math.random() * (i + 1));
+      
+          // Intercambiar los elementos en las posiciones i y j
+          [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
+        }
+      
+        return shuffledCards;
+      }
+      reset() {
+        this.board = this.shuffleCards(this.cards);
+        this.render();
 
+      }
+      flipDownAllCards() {
+        this.cards.forEach(card => {
+            if (card.isFlipped) {
+                card.toggleFlip();
+            }
+        });
+    }
     #setGridColumns() {
         const columns = this.#calculateColumns();
         this.fixedGridElement.className = `fixed-grid has-${columns}-cols`;
